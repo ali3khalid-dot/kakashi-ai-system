@@ -10,15 +10,27 @@ async def connect():
     stream = "btcusdt@kline_1m"
     url = f"{BINANCE_WS}/{stream}"
 
-    async with websockets.connect(url) as ws:
-        print("✅ WebSocket Connected")
+    while True:
+        try:
+            async with websockets.connect(
+                url,
+                ping_interval=20,
+                ping_timeout=20
+            ) as ws:
 
-        while True:
-            data = await ws.recv()
-            msg = json.loads(data)
+                print("✅ WebSocket Connected")
 
-            if "k" in msg:
-                kline = msg["k"]
+                while True:
+                    data = await ws.recv()
+                    msg = json.loads(data)
 
-                if kline["x"]:  # candle closed
-                    print("Price:", kline["c"])
+                    if "k" in msg:
+                        kline = msg["k"]
+
+                        if kline["x"]:
+                            print("Price:", kline["c"])
+
+        except Exception as e:
+            print("❌ Connection Error:", e)
+            print("🔄 Reconnecting in 5 seconds...")
+            await asyncio.sleep(5)
