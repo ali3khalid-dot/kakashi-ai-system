@@ -1,11 +1,9 @@
 import asyncio
-
-print("🔥 Kakashi AI System Started 🔥")
+from core.websocket_engine import connect
 
 async def main():
-    while True:
-        print("👁️ System Running...")
-        await asyncio.sleep(5)
+    print("🔥 Kakashi AI Started 🔥")
+    await connect()
 
 if __name__ == "__main__":
     asyncio.run(main())
