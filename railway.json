@@ -1,4 +1,4 @@
-url = "wss://fstream.binance.com/ws/btcusdt@import asyncio
+import asyncio
 import websockets
 import json
 
