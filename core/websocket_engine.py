@@ -4,16 +4,20 @@ import json
 
 BINANCE_WS = "wss://stream.binance.com:9443/ws"
 
-
 async def connect():
 
     stream = "btcusdt@kline_1m"
     url = f"{BINANCE_WS}/{stream}"
 
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
     while True:
         try:
             async with websockets.connect(
                 url,
+                extra_headers=headers,
                 ping_interval=20,
                 ping_timeout=20
             ) as ws:
