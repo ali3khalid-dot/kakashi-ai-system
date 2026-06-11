@@ -1,8 +1,30 @@
-{
-  "build": {
-    "builder": "NIXPACKS"
-  },
-  "deploy": {
-    "startCommand": "python main.py"
-  }
-}
+url = "wss://fstream.binance.com/ws/btcusdt@import asyncio
+import websockets
+import json
+
+async def connect():
+
+    url = "wss://fstream.binance.com/ws/btcusdt@kline_1m"
+
+    while True:
+        try:
+            async with websockets.connect(
+                url,
+                ping_interval=20,
+                ping_timeout=20
+            ) as ws:
+
+                print("✅ WebSocket Connected")
+
+                while True:
+                    data = await ws.recv()
+                    msg = json.loads(data)
+
+                    if "k" in msg:
+                        if msg["k"]["x"]:
+                            print("Price:", msg["k"]["c"])
+
+        except Exception as e:
+            print("❌ Connection Error:", e)
+            print("🔄 Reconnecting...")
+            await asyncio.sleep(5)
